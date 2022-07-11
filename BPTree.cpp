@@ -145,7 +145,7 @@ void BPTree::insert(int x,record_node *recordptr) {
 
 // Insert Operation
 void BPTree::insertInternal(int x,record_node * recordPtr, Node *cursor, Node *child) {
-    std::cout<<"Addr: "<<recordPtr<<std::endl;
+    //std::cout<<"Addr: "<<recordPtr<<std::endl;
     if (cursor->size < MAX) {
         int i = 0;
         while (x > cursor->key[i] && i < cursor->size)

@@ -16,6 +16,7 @@ void disply_help(){
     printf("LOAD saman");
     printf("\nCREATE TABLE test val1 int val2 char\n");
     printf("INSERT INTO test val1 VALUES 20\n");
+    printf("SHOW saman\n");
     //INSERT INTO saman givian VALUES 10
     /*
      CREATE TABLE saman givian int asd char PRIMARY KEY givian
@@ -177,7 +178,7 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
                         BPTreePtr[*ReleationCounterPtr].AttributesTypes = AttributesTypes;
                         //std:: cout<< PrimaryKey << "Primay "<<BPTreePtr[*ReleationCounterPtr].BPTreeReleationName <<std::endl;
                         *ReleationCounterPtr += 1;
-                        printf("TABLE built successfully");
+                        printf("Table built successfully !\n");
                     }
                     out.close();
                 }
@@ -234,6 +235,7 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
             *ReleationCounterPtr += 1;
             // Close the file
             MyReadFile.close();
+            printf("Loaded sucessfully!\n");
         }
         else if (InputToken[0] == "INSERT" && InputToken[1] == "INTO"){
             
@@ -300,6 +302,16 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
             out.close();
             //std::cout<<RecordNodesPtr[BPTreeReleation][ BPTreePtr[BPTreeReleation].RecordNum-1]->record[1];
             std::cout<<"Inserted sucessfully"<<std::endl;
+        }
+        else if(InputToken[0] == "SHOW"){
+            int BPTreeAddress = 0;
+            for(int ReleationCounter = 0; ReleationCounter < *ReleationCounterPtr;ReleationCounter++){
+                if(BPTreePtr[ReleationCounter].BPTreeReleationName == InputToken[1]){
+                    BPTreeAddress = ReleationCounter;
+                    break;
+                }
+            }
+            BPTreePtr[BPTreeAddress].ReleationDisplay(BPTreePtr[BPTreeAddress], BPTreePtr[BPTreeAddress].getRoot());
         }
     }
     return ;
