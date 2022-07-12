@@ -53,8 +53,8 @@ public:
     void insert(int,record_node *);
     void display(Node *);
     Node *getRoot();
-    void ReleationDisplay(BPTree ReleationTree, Node *cursor);
-    void ReleationDisplayHelper(BPTree ReleationTree, Node *cursor);
+    void ReleationDisplay(BPTree ReleationTree, Node *cursor,std::vector<std::string>Attributes);
+    void ReleationDisplayHelper(BPTree ReleationTree, Node *cursor,std::vector<int>Cols);
 };
 
 

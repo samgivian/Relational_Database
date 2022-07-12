@@ -42,7 +42,7 @@ bool BPTree::search(int x) {
         for (int i = 0; i < cursor->size; i++) {
             if (cursor->key[i] == x) {
                 //cout << "Found\n";
-           
+                
                 return true;
             }
         }
@@ -85,7 +85,7 @@ void BPTree::insert(int x,record_node *recordptr) {
                 cursor->recordptr[j] = cursor->recordptr[j - 1];
                 cursor->key[j] = cursor->key[j - 1];
             }
-           
+            
             cursor->recordptr[i] = recordptr;
             cursor->key[i] = x;
             cursor->size++;
@@ -93,7 +93,7 @@ void BPTree::insert(int x,record_node *recordptr) {
             cursor->ptr[cursor->size] = cursor->ptr[cursor->size - 1];
             cursor->ptr[cursor->size - 1] = NULL;
         } else {
-         
+            
             Node *newLeaf = new Node;
             record_node *virtualRecord[MAX + 1];
             int virtualNode[MAX + 1];
@@ -110,14 +110,14 @@ void BPTree::insert(int x,record_node *recordptr) {
             }
             virtualRecord[i] = recordptr;
             virtualNode[i] = x;
-        
+            
             newLeaf->IS_LEAF = true;
             cursor->size = (MAX + 1) / 2;
             newLeaf->size = MAX + 1 - (MAX + 1) / 2;
             cursor->ptr[cursor->size] = newLeaf;
             newLeaf->ptr[newLeaf->size] = cursor->ptr[MAX];
             cursor->ptr[MAX] = NULL;
-         
+            
             //std::cout<<"Address-else- : "<<newLeaf->recordptr<<std::endl;
             for (i = 0; i < cursor->size; i++) {
                 cursor->recordptr[i] = virtualRecord[i];
@@ -154,7 +154,7 @@ void BPTree::insertInternal(int x,record_node * recordPtr, Node *cursor, Node *c
             cursor->recordptr[j] = cursor->recordptr[j - 1];
             cursor->key[j] = cursor->key[j - 1];
         }
-
+        
         for (int j = cursor->size + 1; j > i + 1; j--) {
             cursor->ptr[j] = cursor->ptr[j - 1];
         }
@@ -171,7 +171,7 @@ void BPTree::insertInternal(int x,record_node * recordPtr, Node *cursor, Node *c
             virtualRecord[i] = cursor->recordptr[i];
             virtualKey[i] = cursor->key[i];
         }
-       
+        
         for (int i = 0; i < MAX + 1; i++) {
             virtualPtr[i] = cursor->ptr[i];
         }
@@ -184,7 +184,7 @@ void BPTree::insertInternal(int x,record_node * recordPtr, Node *cursor, Node *c
         }
         virtualRecord[i] = recordPtr;
         virtualKey[i] = x;
-    
+        
         for (int j = MAX + 1; j > i + 1; j--) {
             virtualPtr[j] = virtualPtr[j - 1];
         }
@@ -196,7 +196,7 @@ void BPTree::insertInternal(int x,record_node * recordPtr, Node *cursor, Node *c
             newInternal->recordptr[i] = virtualRecord[j];
             newInternal->key[i] = virtualKey[j];
         }
-   
+        
         for (i = 0, j = cursor->size + 1; i < newInternal->size + 1; i++, j++) {
             newInternal->ptr[i] = virtualPtr[j];
         }
@@ -250,44 +250,55 @@ void BPTree::display(Node *cursor) {
     }
 }
 
-void BPTree::ReleationDisplay(BPTree ReleationTree, Node *cursor) {
-    for (int Attr = 0; Attr< ReleationTree.Attributes.size(); Attr++){
+void BPTree::ReleationDisplay(BPTree ReleationTree, Node *cursor,std::vector<std::string>Attributes) {
+    for (int Attr = 0; Attr<Attributes.size(); Attr++){
         std::cout<<"+--------------------";
     }
     std::cout<<"+"<<std::endl;
+    std::vector<int>Cols;
     for (int Attr = 0;Attr <  ReleationTree.Attributes.size(); Attr++){
-        std::cout<<"|"<< ReleationTree.Attributes[Attr]<<std::string(20 - ReleationTree.Attributes[Attr].length(),' ');
-        //std::string(20 - strlen(table_page[i].attr_names[attr]),' ') ;
-    }
-    std::cout<<"|"<<std::endl;
-    for (int Attr = 0; Attr< ReleationTree.Attributes.size(); Attr++){
-        std::cout<<"+--------------------";
-    }
-    std::cout<<"+"<<std::endl;
-    ReleationTree.ReleationDisplayHelper(ReleationTree,cursor);
-    std::cout<<std::endl;
-}
-void BPTree::ReleationDisplayHelper(BPTree ReleationTree, Node *cursor){
-    if (cursor != NULL) {
-        if (cursor->IS_LEAF == true) {
-        for (int i = 0; i < cursor->size; i++ ) {
-            for (int Col = 0; Col< ReleationTree.Attributes.size(); Col++){
-               // std::cout <<"|"<< cursor->recordptr[i]->record[Col];
-                std::cout<<"|"<<cursor->recordptr[i]->record[Col]<<std::string(20 - strlen(cursor->recordptr[i]->record[Col]),' ') ;
-            }
+        if( std::find(ReleationTree.Attributes.begin(), ReleationTree.Attributes.end(),Attributes[Attr])== ReleationTree.Attributes.end()){
+            //std::cout<<"Col added" << Attr<<ReleationTree.Attributes[Attr]<<std::endl;
+            Cols.push_back(Attr);
+            //std::cout<<Attr<<std::endl;
+            std::cout<<"|"<< ReleationTree.Attributes[Attr]<<std::string(20 - ReleationTree.Attributes[Attr].length(),' ');
+            //std::string(20 - strlen(table_page[i].attr_names[attr]),' ') ;
             std::cout<<"|"<<std::endl;
-            for (int Attr = 0; Attr< ReleationTree.Attributes.size(); Attr++){
+            for (int Attr = 0; Attr< Attributes.size(); Attr++){
                 std::cout<<"+--------------------";
             }
             std::cout<<"+"<<std::endl;
-            
-            //std::cout <<"Expected Key: "<<cursor->key[i]<<std::endl;
         }
-        }
+    }
     
+    ReleationTree.ReleationDisplayHelper(ReleationTree,cursor,Cols);
+    std::cout<<std::endl;
+}
+void BPTree::ReleationDisplayHelper(BPTree ReleationTree, Node *cursor,std::vector<int>Cols){
+    if (cursor != NULL) {
+        if (cursor->IS_LEAF == true) {
+            for (int i = 0; i < cursor->size; i++ ) {
+                for (int Col = 0; Col< ReleationTree.Attributes.size(); Col++){
+                    // std::cout <<"|"<< cursor->recordptr[i]->record[Col];
+                    if (std::find(Cols.begin(),Cols.end(),Col) != Cols.end()){
+                        //std::cout<<"FOUND"<<Col<<std::endl;
+                        std::cout<<"|"<<cursor->recordptr[i]->record[Col]<<std::string(20 - strlen(cursor->recordptr[i]->record[Col]),' ') ;
+                        std::cout<<"|"<<std::endl;
+                        for (int Attr = 0; Attr< Cols.size(); Attr++){
+                            std::cout<<"+--------------------";
+                        }
+                        std::cout<<"+"<<std::endl;
+                    }
+                }
+                
+                
+                //std::cout <<"Expected Key: "<<cursor->key[i]<<std::endl;
+            }
+        }
+        
         if (cursor->IS_LEAF != true) {
             for (int i = 0; i < cursor->size + 1; i++) {
-                ReleationDisplayHelper(ReleationTree,cursor->ptr[i]);
+                ReleationDisplayHelper(ReleationTree,cursor->ptr[i],Cols);
             }
         }
     }

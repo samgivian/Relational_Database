@@ -17,6 +17,8 @@ void disply_help(){
     printf("\nCREATE TABLE test val1 int val2 char\n");
     printf("INSERT INTO test val1 VALUES 20\n");
     printf("SHOW saman\n");
+    printf("SELECT * FROM test\n");
+    printf("SELECT val2 from test \n");
     //INSERT INTO saman givian VALUES 10
     /*
      CREATE TABLE saman givian int asd char PRIMARY KEY givian
@@ -178,7 +180,7 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
                         BPTreePtr[*ReleationCounterPtr].AttributesTypes = AttributesTypes;
                         //std:: cout<< PrimaryKey << "Primay "<<BPTreePtr[*ReleationCounterPtr].BPTreeReleationName <<std::endl;
                         *ReleationCounterPtr += 1;
-                        printf("Table built successfully !\n");
+                        printf("Table built successfully!\n");
                     }
                     out.close();
                 }
@@ -311,7 +313,9 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
                     break;
                 }
             }
-            BPTreePtr[BPTreeAddress].ReleationDisplay(BPTreePtr[BPTreeAddress], BPTreePtr[BPTreeAddress].getRoot());
+            std::vector<std::string> OUTPUT= {BPTreePtr[BPTreeAddress].Attributes[1]};
+            std::cout<<"ATTR:"<<BPTreePtr[BPTreeAddress].Attributes[1]<<std::endl;
+            BPTreePtr[BPTreeAddress].ReleationDisplay(BPTreePtr[BPTreeAddress], BPTreePtr[BPTreeAddress].getRoot(),OUTPUT);
         }
     }
     return ;
