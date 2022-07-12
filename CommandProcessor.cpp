@@ -298,6 +298,7 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
             std:: ofstream out("/Users/samangivian/Desktop/Database 1.0/" + RelationName + "/"+PrimaryKey+".txt");
             
             for(int ColCounter = 0 ; ColCounter < Values.size(); ColCounter++ ){
+                std::cout<<Values[ColCounter]<<" ";
                 out << Values[ColCounter]<<" ";
             }
             

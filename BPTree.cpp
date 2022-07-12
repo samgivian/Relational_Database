@@ -256,18 +256,21 @@ void BPTree::ReleationDisplay(BPTree ReleationTree, Node *cursor,std::vector<std
     }
     std::cout<<"+"<<std::endl;
     std::vector<int>Cols;
-    for (int Attr = 0;Attr <  ReleationTree.Attributes.size(); Attr++){
-        if( std::find(ReleationTree.Attributes.begin(), ReleationTree.Attributes.end(),Attributes[Attr])== ReleationTree.Attributes.end()){
-            //std::cout<<"Col added" << Attr<<ReleationTree.Attributes[Attr]<<std::endl;
-            Cols.push_back(Attr);
-            //std::cout<<Attr<<std::endl;
-            std::cout<<"|"<< ReleationTree.Attributes[Attr]<<std::string(20 - ReleationTree.Attributes[Attr].length(),' ');
-            //std::string(20 - strlen(table_page[i].attr_names[attr]),' ') ;
-            std::cout<<"|"<<std::endl;
-            for (int Attr = 0; Attr< Attributes.size(); Attr++){
-                std::cout<<"+--------------------";
+    for(int SelectedAttr = 0;SelectedAttr< Attributes.size();SelectedAttr++ ){
+        for (int Attr = 0;Attr <  ReleationTree.Attributes.size(); Attr++){
+            //std::cout<<ReleationTree.Attributes[Attr]<< "   "<<Attributes[Attr]<<std::endl;
+            if(Attributes[SelectedAttr] ==  ReleationTree.Attributes[Attr]){
+                //std::cout<<"Col added" << Attr<<ReleationTree.Attributes[Attr]<<std::endl;
+                Cols.push_back(Attr);
+                //std::cout<<Attr<<std::endl;
+                std::cout<<"|"<< ReleationTree.Attributes[Attr]<<std::string(20 - ReleationTree.Attributes[Attr].length(),' ');
+                //std::string(20 - strlen(table_page[i].attr_names[attr]),' ') ;
+                std::cout<<"|"<<std::endl;
+                for (int Attr = 0; Attr< Attributes.size(); Attr++){
+                    std::cout<<"+--------------------";
+                }
+                std::cout<<"+"<<std::endl;
             }
-            std::cout<<"+"<<std::endl;
         }
     }
     
