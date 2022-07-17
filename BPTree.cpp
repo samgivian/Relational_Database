@@ -258,21 +258,18 @@ void BPTree::ReleationDisplay(BPTree ReleationTree, Node *cursor,std::vector<std
     std::vector<int>Cols;
     for(int SelectedAttr = 0;SelectedAttr< Attributes.size();SelectedAttr++ ){
         for (int Attr = 0;Attr <  ReleationTree.Attributes.size(); Attr++){
-            //std::cout<<ReleationTree.Attributes[Attr]<< "   "<<Attributes[Attr]<<std::endl;
             if(Attributes[SelectedAttr] ==  ReleationTree.Attributes[Attr]){
-                //std::cout<<"Col added" << Attr<<ReleationTree.Attributes[Attr]<<std::endl;
                 Cols.push_back(Attr);
-                //std::cout<<Attr<<std::endl;
                 std::cout<<"|"<< ReleationTree.Attributes[Attr]<<std::string(20 - ReleationTree.Attributes[Attr].length(),' ');
-                //std::string(20 - strlen(table_page[i].attr_names[attr]),' ') ;
-                std::cout<<"|"<<std::endl;
-                for (int Attr = 0; Attr< Attributes.size(); Attr++){
-                    std::cout<<"+--------------------";
-                }
-                std::cout<<"+"<<std::endl;
+                break;
             }
         }
     }
+    std::cout<<"|"<<std::endl;
+    for(int i = 0;i<Attributes.size();i++){
+        std::cout<<"+--------------------";
+    }
+    std::cout<<"+"<<std::endl;
     
     ReleationTree.ReleationDisplayHelper(ReleationTree,cursor,Cols);
     std::cout<<std::endl;
@@ -281,18 +278,21 @@ void BPTree::ReleationDisplayHelper(BPTree ReleationTree, Node *cursor,std::vect
     if (cursor != NULL) {
         if (cursor->IS_LEAF == true) {
             for (int i = 0; i < cursor->size; i++ ) {
+                std::cout<<"|";
                 for (int Col = 0; Col< ReleationTree.Attributes.size(); Col++){
                     // std::cout <<"|"<< cursor->recordptr[i]->record[Col];
                     if (std::find(Cols.begin(),Cols.end(),Col) != Cols.end()){
                         //std::cout<<"FOUND"<<Col<<std::endl;
-                        std::cout<<"|"<<cursor->recordptr[i]->record[Col]<<std::string(20 - strlen(cursor->recordptr[i]->record[Col]),' ') ;
-                        std::cout<<"|"<<std::endl;
-                        for (int Attr = 0; Attr< Cols.size(); Attr++){
-                            std::cout<<"+--------------------";
-                        }
-                        std::cout<<"+"<<std::endl;
+                        std::cout<<cursor->recordptr[i]->record[Col]<<std::string(20 - strlen(cursor->recordptr[i]->record[Col]),' ') ;
+                        std::cout<<"|";
+                  
                     }
                 }
+            std::cout<<std::endl;
+                for (int Attr = 0; Attr< Cols.size(); Attr++){
+                    std::cout<<"+--------------------";
+                }
+                std::cout<<"+"<<std::endl;
                 
                 
                 //std::cout <<"Expected Key: "<<cursor->key[i]<<std::endl;

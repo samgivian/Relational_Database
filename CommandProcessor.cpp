@@ -222,7 +222,8 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
                     record_node* NewRecord = new record_node();
                     while (getline (MyReadFile, myText)) {
                         // Output the text from the file
-                        std::vector<std::string> LineParse = StringVectorizer(myText);
+                        std::vector<std::string> LineParse = SplitStringByNewLine(myText);
+                        //std::cout<<LineParse.size()<<std::endl;
                         for(int Col = 0; Col<LineParse.size();Col++){
                             std::strcpy(NewRecord->record[Col], LineParse[Col].c_str());
                         }
@@ -272,6 +273,7 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
             }
             //record_node NewRecord;
             record_node* NewRecord = new record_node();
+            
             //std::cout<<"PK " <<BPTreePtr[BPTreeReleation].Primarykey<<std::endl;
             for(int Col = 0; Col < BPTreePtr[BPTreeReleation].Attributes.size(); Col++){
                 for (int AttrCol = 0; AttrCol < AttrUpdated.size(); AttrCol++){
@@ -296,11 +298,16 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
             BPTreePtr[BPTreeReleation].RecordNum += 1;
             //std::cout<<PrimaryKey<<std::endl;
             std:: ofstream out("/Users/samangivian/Desktop/Database 1.0/" + RelationName + "/"+PrimaryKey+".txt");
-            
-            for(int ColCounter = 0 ; ColCounter < Values.size(); ColCounter++ ){
-                std::cout<<Values[ColCounter]<<" ";
-                out << Values[ColCounter]<<" ";
+            for(int Col = 0; Col < BPTreePtr[BPTreeReleation].Attributes.size(); Col++){
+                for (int AttrCol = 0; AttrCol < AttrUpdated.size(); AttrCol++){
+                    if(AttrUpdated[AttrCol] == BPTreePtr[BPTreeReleation].Attributes[Col]){
+                        out << Values[AttrCol];
+                       
+                    }
+                }
+                out <<'\r';
             }
+
             
             out.close();
             //std::cout<<RecordNodesPtr[BPTreeReleation][ BPTreePtr[BPTreeReleation].RecordNum-1]->record[1];
@@ -314,7 +321,7 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
                     break;
                 }
             }
-            std::vector<std::string> OUTPUT= {BPTreePtr[BPTreeAddress].Attributes[1]};
+            std::vector<std::string> OUTPUT= {BPTreePtr[BPTreeAddress].Attributes};
             std::cout<<"ATTR:"<<BPTreePtr[BPTreeAddress].Attributes[1]<<std::endl;
             BPTreePtr[BPTreeAddress].ReleationDisplay(BPTreePtr[BPTreeAddress], BPTreePtr[BPTreeAddress].getRoot(),OUTPUT);
         }
