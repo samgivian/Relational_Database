@@ -17,7 +17,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
-#include "/Users/samangivian/stdc++.h"
+#include "stdc++.h"
 #include <iostream>
 #include <sys/stat.h>
 #include <sys/types.h>

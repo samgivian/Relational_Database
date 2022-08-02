@@ -325,7 +325,42 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
             std::cout<<"ATTR:"<<BPTreePtr[BPTreeAddress].Attributes[1]<<std::endl;
             BPTreePtr[BPTreeAddress].ReleationDisplay(BPTreePtr[BPTreeAddress], BPTreePtr[BPTreeAddress].getRoot(),OUTPUT);
         }
+        else if (InputToken[0] == "SELECT"){
+            
+            std:: vector <std::string> SelectedAttr;
+            bool AllAttr = false;
+            int BPTreeAddress = 0;
+            int InputCounter = 1;
+            
+            while(true){
+                if(InputToken[InputCounter]=="FROM"){
+                    InputCounter++;
+                    for(int ReleationCounter = 0; ReleationCounter < *ReleationCounterPtr;ReleationCounter++){
+                        if(BPTreePtr[ReleationCounter].BPTreeReleationName == InputToken[InputCounter]){
+                            BPTreeAddress = ReleationCounter;
+                            break;
+                        }
+                    }
+                    if(AllAttr){
+                        SelectedAttr = BPTreePtr[BPTreeAddress].Attributes;
+                    }
+                    break;
+                }
+                
+                if(InputToken[InputCounter] == "*"){
+                    AllAttr = true;
+                }
+                else{
+                    SelectedAttr.push_back(InputToken[InputCounter]);
+                }
+               
+                InputCounter++;
+            }
+            BPTreePtr[BPTreeAddress].ReleationDisplay(BPTreePtr[BPTreeAddress], BPTreePtr[BPTreeAddress].getRoot(),SelectedAttr);
+        }
+        
     }
+   
     return ;
 }
 
