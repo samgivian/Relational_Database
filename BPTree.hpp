@@ -55,6 +55,8 @@ public:
     Node *getRoot();
     void ReleationDisplay(BPTree ReleationTree, Node *cursor,std::vector<std::string>Attributes);
     void ReleationDisplayHelper(BPTree ReleationTree, Node *cursor,std::vector<int>Cols);
+    record_node * RecordArrayFinder(BPTree ReleationTree);
+    record_node * RecordFinder(BPTree ReleationTree, Node *cursor, record_node RecordNodesTempPtr[100],int *recordArrayCounter);
 };
 
 

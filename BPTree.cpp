@@ -249,6 +249,38 @@ void BPTree::display(Node *cursor) {
         }
     }
 }
+record_node * BPTree::RecordArrayFinder(BPTree ReleationTree){
+    record_node * recordNodeTemp = new record_node[100];
+    int recordArrayCounter = 0;
+    RecordFinder(ReleationTree,ReleationTree.getRoot(),recordNodeTemp,&recordArrayCounter);
+    return recordNodeTemp;
+}
+record_node * BPTree::RecordFinder(BPTree ReleationTree, Node *cursor, record_node RecordNodesTempPtr[100],int *recordArrayCounterPtr) {
+    //std::cout<<recordNodeTemp<<std::endl;
+    //std::cout<<&recordNodeTemp[0]<<std::endl;
+    //std::cout<<&recordNodeTemp[1]<<std::endl;
+    if (cursor != NULL) {
+        for (int i = 0; i < cursor->size; i++) {
+           // std::cout<< cursor->recordptr[i]->record[0]<<std::endl;
+           // std::cout<<cursor->recordptr[i]->record[1]<<std::endl;
+           // std::cout<<cursor->recordptr[i]->record[2]<<std::endl;
+            for(int Col = 0;Col < ReleationTree.Attributes.size();Col++){
+            std::strcpy(RecordNodesTempPtr[*recordArrayCounterPtr ].record[Col]  , cursor->recordptr[i]->record[Col]);
+            }
+            *recordArrayCounterPtr += 1;
+            //std::cout <<"Expected Key: "<<cursor->key[i]<<" "<< cursor->recordptr[i]->record[0] << ": "<<cursor->recordptr[i]<<" ";
+            //std::cout <<"Expected Key: "<<cursor->key[i]<<std::endl;
+        }
+    
+        std::cout << "\n";
+        if (cursor->IS_LEAF != true) {
+            for (int i = 0; i < cursor->size + 1; i++) {
+                RecordFinder(ReleationTree, cursor->ptr[i],RecordNodesTempPtr,recordArrayCounterPtr);
+            }
+        }
+    }
+    return RecordNodesTempPtr;
+}
 
 void BPTree::ReleationDisplay(BPTree ReleationTree, Node *cursor,std::vector<std::string>Attributes) {
     for (int Attr = 0; Attr<Attributes.size(); Attr++){

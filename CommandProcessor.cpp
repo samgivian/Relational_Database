@@ -324,6 +324,58 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
             std::vector<std::string> OUTPUT= {BPTreePtr[BPTreeAddress].Attributes};
             std::cout<<"ATTR:"<<BPTreePtr[BPTreeAddress].Attributes[1]<<std::endl;
             BPTreePtr[BPTreeAddress].ReleationDisplay(BPTreePtr[BPTreeAddress], BPTreePtr[BPTreeAddress].getRoot(),OUTPUT);
+            
+        }
+        else if (InputToken[0] == "SELECT"){
+            
+            std:: vector <std::string> SelectedAttr;
+            bool AllAttr = false;
+            int BPTreeAddress = 0;
+            int InputCounter = 1;
+            BPTree BPTreeTemp;
+            
+            while(true){
+                if(InputToken[InputCounter] == "FROM"){
+                    InputCounter++;
+                    for(int ReleationCounter = 0; ReleationCounter < *ReleationCounterPtr;ReleationCounter++){
+                        if(BPTreePtr[ReleationCounter].BPTreeReleationName == InputToken[InputCounter]){
+                            BPTreeAddress = ReleationCounter;
+                            break;
+                        }
+                    }
+                    if(AllAttr){
+                        SelectedAttr = BPTreePtr[BPTreeAddress].Attributes;
+                    }
+                    record_node *  recordNodeTemp =  BPTreePtr[BPTreeAddress].RecordArrayFinder(BPTreePtr[BPTreeAddress]);
+                    for(int i = 0;i<BPTreePtr[BPTreeAddress].RecordNum;i++){
+                        std::cout<<recordNodeTemp[i].record[1   ]<<std::endl;
+                    }
+                    if(InputToken[InputCounter] == "WHERE"){
+                        InputCounter ++;
+                        while(InputCounter < InputToken.size()){
+                            std::string AttrCompare1 = InputToken[InputCounter] ;
+                            std::string AttrCompare2 = InputToken[InputCounter+2];
+                            
+                            InputCounter = InputCounter + 3;
+                        }
+                    }
+                    else{
+                        BPTreeTemp = BPTreePtr[BPTreeAddress];
+                    }
+                    
+                    break;
+                }
+               
+                if(InputToken[InputCounter] == "*"){
+                    AllAttr = true;
+                }
+                else{
+                    SelectedAttr.push_back(InputToken[InputCounter]);
+                }
+               
+                InputCounter++;
+            }
+            BPTreeTemp.ReleationDisplay(BPTreeTemp, BPTreeTemp.getRoot(),SelectedAttr);
         }
     }
     return ;
