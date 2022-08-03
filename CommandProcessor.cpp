@@ -322,7 +322,7 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
                 }
             }
             std::vector<std::string> OUTPUT= {BPTreePtr[BPTreeAddress].Attributes};
-            std::cout<<"ATTR:"<<BPTreePtr[BPTreeAddress].Attributes[1]<<std::endl;
+            //std::cout<<"ATTR:"<<BPTreePtr[BPTreeAddress].Attributes[1]<<std::endl;
             BPTreePtr[BPTreeAddress].ReleationDisplay(BPTreePtr[BPTreeAddress], BPTreePtr[BPTreeAddress].getRoot(),OUTPUT);
             
         }
@@ -347,8 +347,8 @@ void CommandExecuter(InputProcesser:: InputBuffer* UserInput, BPTree *BPTreePtr,
                         SelectedAttr = BPTreePtr[BPTreeAddress].Attributes;
                     }
                     record_node *  recordNodeTemp =  BPTreePtr[BPTreeAddress].RecordArrayFinder(BPTreePtr[BPTreeAddress]);
-                    for(int i = 0;i<BPTreePtr[BPTreeAddress].RecordNum;i++){
-                        std::cout<<recordNodeTemp[i].record[1   ]<<std::endl;
+                    for(int i = 0;i<=BPTreePtr[BPTreeAddress].RecordNum;i++){
+                        std::cout<<recordNodeTemp[i].record[0]<<std::endl;
                     }
                     if(InputToken[InputCounter] == "WHERE"){
                         InputCounter ++;

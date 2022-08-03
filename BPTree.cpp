@@ -260,18 +260,19 @@ record_node * BPTree::RecordFinder(BPTree ReleationTree, Node *cursor, record_no
     //std::cout<<&recordNodeTemp[0]<<std::endl;
     //std::cout<<&recordNodeTemp[1]<<std::endl;
     if (cursor != NULL) {
-        for (int i = 0; i < cursor->size; i++) {
-           // std::cout<< cursor->recordptr[i]->record[0]<<std::endl;
-           // std::cout<<cursor->recordptr[i]->record[1]<<std::endl;
-           // std::cout<<cursor->recordptr[i]->record[2]<<std::endl;
-            for(int Col = 0;Col < ReleationTree.Attributes.size();Col++){
-            std::strcpy(RecordNodesTempPtr[*recordArrayCounterPtr ].record[Col]  , cursor->recordptr[i]->record[Col]);
+        if (cursor->IS_LEAF == true) {
+            for (int i = 0; i < cursor->size; i++) {
+                // std::cout<< cursor->recordptr[i]->record[0]<<std::endl;
+                // std::cout<<cursor->recordptr[i]->record[1]<<std::endl;
+                // std::cout<<cursor->recordptr[i]->record[2]<<std::endl;
+                for(int Col = 0;Col < 3;Col++){
+                    std::strcpy(RecordNodesTempPtr[*recordArrayCounterPtr ].record[Col]  , cursor->recordptr[i]->record[Col]);
+                    
+                }
+                *recordArrayCounterPtr += 1;
             }
-            *recordArrayCounterPtr += 1;
-            //std::cout <<"Expected Key: "<<cursor->key[i]<<" "<< cursor->recordptr[i]->record[0] << ": "<<cursor->recordptr[i]<<" ";
-            //std::cout <<"Expected Key: "<<cursor->key[i]<<std::endl;
         }
-    
+        
         std::cout << "\n";
         if (cursor->IS_LEAF != true) {
             for (int i = 0; i < cursor->size + 1; i++) {
@@ -317,10 +318,10 @@ void BPTree::ReleationDisplayHelper(BPTree ReleationTree, Node *cursor,std::vect
                         //std::cout<<"FOUND"<<Col<<std::endl;
                         std::cout<<cursor->recordptr[i]->record[Col]<<std::string(20 - strlen(cursor->recordptr[i]->record[Col]),' ') ;
                         std::cout<<"|";
-                  
+                        
                     }
                 }
-            std::cout<<std::endl;
+                std::cout<<std::endl;
                 for (int Attr = 0; Attr< Cols.size(); Attr++){
                     std::cout<<"+--------------------";
                 }
